@@ -20,7 +20,7 @@ sources:
  - https://github.com/mysticrenji/dependency-track-chart/
 dependencies:
 - name: postgres
-  version: 1.5.0
+  version: 1.3.6
   repository: https://romanow.github.io/helm-charts/
   condition: postgresql.enabled
 - name: common
