@@ -13,7 +13,7 @@ global:
 frontend:
   enabled: true
   annotations: {}
-  replicaCount: 2
+  replicaCount: 1
   image:
     repository: dependencytrack/frontend
     tag: 4.6.1
