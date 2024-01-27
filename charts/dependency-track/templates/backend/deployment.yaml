@@ -53,6 +53,8 @@ spec:
               key: postgresql-password
         - name: ALPINE_DATABASE_USERNAME
           value: {{ .Values.postgresql.postgresqlUsername }}
+        - name: EXTRA_JAVA_OPTIONS
+          value: "Xmx6G"
         {{- end }}
         {{- with .Values.apiserver.env }}
         {{- toYaml . | nindent 8 }}
