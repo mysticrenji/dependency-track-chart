@@ -124,11 +124,11 @@ apiserver:
   resources:
   # https://docs.dependencytrack.org/getting-started/deploy-docker/
     requests:
-      cpu: 2
-      memory: 4608Mi
+      cpu: 1
+      memory: 4Gi
     limits:
-      cpu: 4
-      memory: 16Gi
+      cpu: 1
+      memory: 4Gi
   nameOverride: ""
   fullnameOverride: ""
   initContainers: []
