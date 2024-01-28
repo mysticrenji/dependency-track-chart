@@ -6,14 +6,10 @@
 # -- global configuration
 global:
   imageRegistry: docker.io
-  # imagePullSecrets:
-  #   - name: "myRegistryKeySecretName"
-
-# -- config of the frontend
 frontend:
   enabled: true
   annotations: {}
-  replicaCount: 1
+  replicaCount: 2
   image:
     repository: dependencytrack/frontend
     tag: 4.10.0
@@ -22,16 +18,24 @@ frontend:
   # configmap:
   #  config: |
   #    {
-  #      "API_BASE_URL": "",
-  #      "OIDC_ISSUER": "",
-  #      "OIDC_CLIENT_ID": "",
+  #      "API_BASE_URL": "http://localhost:8081",
+  #      "OIDC_ISSUER": "https://gitlab.com",
+  #      "OIDC_CLIENT_ID": "a074bfc7dea36f2118f3275b38a0a5730755578c8acd61d7b8ef2fd41f9dcb9c",
   #      "OIDC_SCOPE": "openid profile email",
   #      "OIDC_FLOW": ""
   #    }
   # --See https://docs.dependencytrack.org/getting-started/configuration/ for frontend ENV variables.
   env:
-    - name: API_BASE_URL
-      value: ""
+  - name: API_BASE_URL
+    value: ""
+  - name: OIDC_ISSUER
+    value: ""
+  - name: OIDC_CLIENT_ID
+    value: ""
+  - name: OIDC_SCOPE
+    value: ""
+  - name: OIDC_FLOW
+    value: ""
     # See https://docs.dependencytrack.org/getting-started/configuration/ for frontend ENV variables.
 #  podSecurityContext:
 #    fsGroup: 1000
@@ -97,7 +101,37 @@ apiserver:
     repository: dependencytrack/apiserver
     tag: 4.10.1
     pullPolicy: IfNotPresent
-  env: []
+    env:
+    - name: ALPINE_OIDC_ENABLED
+      value: ""
+    - name: ALPINE_OIDC_ISSUER
+      value: ""
+    - name: ALPINE_OIDC_CLIENT_ID
+      value: ""
+    - name: ALPINE_OIDC_USERNAME_CLAIM
+      value: ""
+    - name: ALPINE_OIDC_TEAMS_CLAIM
+      value: ""
+    - name: ALPINE_OIDC_USER_PROVISIONING
+      value: ""
+    - name: ALPINE_OIDC_TEAM_SYNCHRONIZATION
+      value: ""
+    - name: ALPINE_CORS_ENABLED
+      value: "true"
+    - name: ALPINE_CORS_ALLOW_ORIGIN
+      value: "*"
+    - name: ALPINE_CORS_ALLOW_METHODS
+      value: "GET, POST, PUT, DELETE, OPTIONS"
+    - name: ALPINE_CORS_ALLOW_HEADERS
+      value: "Origin, Content-Type, Authorization, X-Requested-With, Content-Length, Accept, Origin, X-Api-Key, X-Total-Count, *"
+    - name: ALPINE_CORS_EXPOSE_HEADERS
+      value: "Origin, Content-Type, Authorization, X-Requested-With, Content-Length, Accept, Origin, X-Api-Key, X-Total-Count"
+    - name: ALPINE_CORS_ALLOW_CREDENTIALS
+      value: "true"
+    - name: ALPINE_CORS_MAX_AGE
+      value: "3600"
+    - name: EXTRA_JAVA_OPTIONS
+      value: "-Xmx6G"
   persistentVolume:
     accessModes:
     - ReadWriteOnce
@@ -124,11 +158,11 @@ apiserver:
   resources:
   # https://docs.dependencytrack.org/getting-started/deploy-docker/
     requests:
-      cpu: 2
-      memory: 8Gi
+      cpu: 1
+      memory: 4Gi
     limits:
-      cpu: 2
-      memory: 8Gi
+      cpu: 4
+      memory: 4Gi
   nameOverride: ""
   fullnameOverride: ""
   initContainers: []
@@ -176,7 +210,8 @@ ingress:
 
 # -- configuration of postgres
 postgresql:
-  enabled: false
+  enabled: true
   postgresqlUsername: deptrack
   postgresqlPassword: deptrack
   postgresqlDatabase: deptrack
+
