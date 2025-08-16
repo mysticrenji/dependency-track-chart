@@ -20,7 +20,7 @@ sources:
  - https://github.com/mysticrenji/dependency-track-chart/
 dependencies:
 - name: postgresql
-  version: 13.x.x
+  version: 16.x
   repository: https://charts.bitnami.com/bitnami
   condition: postgresql.enabled
 - name: common
