@@ -99,7 +99,7 @@ apiserver:
   replicaCount: 1
   image:
     repository: dependencytrack/apiserver
-    tag: 4.13.5
+    tag: 4.14.3
     pullPolicy: IfNotPresent
     env:
     - name: ALPINE_OIDC_ENABLED
